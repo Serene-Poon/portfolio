@@ -200,6 +200,53 @@
     }
   }
 
+  /* ---------- Masonry gallery ---------- */
+  const masons = Array.from(document.querySelectorAll(".masonry"));
+
+  function columnCount() {
+    const w = window.innerWidth;
+    if (w <= 560) return 1;
+    if (w <= 1100) return 2;
+    return 3;
+  }
+
+  function buildMasonry() {
+    const cols = columnCount();
+    masons.forEach(function (m) {
+      if (!m._items) m._items = Array.from(m.children);
+      if (m.dataset.cols === String(cols) && m.children.length === cols) return;
+      m.dataset.cols = String(cols);
+
+      const items = m._items;
+      m.innerHTML = "";
+      const columns = [];
+      for (let i = 0; i < cols; i++) {
+        const col = document.createElement("div");
+        col.className = "m-col";
+        m.appendChild(col);
+        columns.push(col);
+      }
+
+      const heights = new Array(cols).fill(0);
+      items.forEach(function (tile) {
+        const img = tile.querySelector("img");
+        const w = Number(img.getAttribute("width")) || 1;
+        const h = Number(img.getAttribute("height")) || 1;
+        const target = heights.indexOf(Math.min.apply(null, heights));
+        columns[target].appendChild(tile);
+        heights[target] += h / w + 0.05;
+      });
+    });
+  }
+
+  buildMasonry();
+
+  let resizeTimer = null;
+  window.addEventListener("resize", function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(buildMasonry, 150);
+  });
+
   /* ---------- Active nav ---------- */
   const links = Array.from(document.querySelectorAll(".nav a"));
   const sections = links
