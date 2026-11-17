@@ -218,6 +218,7 @@
       m.dataset.cols = String(cols);
 
       const items = m._items;
+      m.style.setProperty("--masonry-cols", cols);
       m.innerHTML = "";
       const columns = [];
       for (let i = 0; i < cols; i++) {
