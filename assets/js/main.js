@@ -148,8 +148,15 @@
   const videoFrame = document.getElementById("showreel");
   if (videoFrame) {
     const playBtn = videoFrame.querySelector(".video-play");
+    const driveUrl = "https://drive.google.com/file/d/1NroltSyU6AxAG9qdRVFs8pT69B9eMqLc/view";
     if (playBtn) {
       playBtn.addEventListener("click", function () {
+        /* Google Drive's embedded player is unreliable on mobile browsers,
+           so hand off to the Drive app / browser instead. */
+        if (window.matchMedia("(max-width: 860px)").matches) {
+          window.open(driveUrl, "_blank", "noopener");
+          return;
+        }
         const iframe = document.createElement("iframe");
         iframe.src = "https://drive.google.com/file/d/1NroltSyU6AxAG9qdRVFs8pT69B9eMqLc/preview?autoplay=1";
         iframe.title = "ShowReel 2026 — Serene Poon";
