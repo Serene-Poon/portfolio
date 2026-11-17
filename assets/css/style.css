@@ -495,13 +495,24 @@ html[data-lang="zh"] .hero h2 {
   color: #6b5a52;
 }
 
-/* ---------- Gallery ---------- */
-.masonry { columns: 3; column-gap: 20px; }
+/* ---------- Gallery (JS masonry) ---------- */
+.masonry {
+  display: grid;
+  grid-template-columns: repeat(var(--masonry-cols, 3), minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.masonry .m-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
 
 .tile {
   position: relative;
-  margin: 0 0 20px;
-  break-inside: avoid;
+  margin: 0;
   cursor: zoom-in;
   overflow: hidden;
   border-radius: 2px;
@@ -843,7 +854,6 @@ html[data-lang="zh"] .hero h2 {
 @media (max-width: 1100px) {
   :root { --sidebar-w: 280px; }
   .section, .hero { padding-left: 44px; padding-right: 44px; }
-  .masonry { columns: 2; }
 }
 
 @media (max-width: 860px) {
@@ -891,7 +901,6 @@ html[data-lang="zh"] .hero h2 {
 }
 
 @media (max-width: 560px) {
-  .masonry { columns: 1; }
   .section-head { margin-bottom: 28px; }
   .video-frame { aspect-ratio: 4 / 3; }
 }
