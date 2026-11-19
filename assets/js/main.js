@@ -231,13 +231,24 @@
       }
 
       const heights = new Array(cols).fill(0);
-      items.forEach(function (tile) {
+
+      function ratioOf(tile) {
         const img = tile.querySelector("img");
         const w = Number(img.getAttribute("width")) || 1;
         const h = Number(img.getAttribute("height")) || 1;
+        return h / w;
+      }
+
+      /* place the tallest tiles first — this keeps the three columns
+         within roughly one thumbnail height of each other */
+      const ordered = items.slice().sort(function (a, b) {
+        return ratioOf(b) - ratioOf(a);
+      });
+
+      ordered.forEach(function (tile) {
         const target = heights.indexOf(Math.min.apply(null, heights));
         columns[target].appendChild(tile);
-        heights[target] += h / w + 0.05;
+        heights[target] += ratioOf(tile);
       });
     });
   }
