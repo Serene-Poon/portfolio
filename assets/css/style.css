@@ -899,10 +899,27 @@ html[data-lang="zh"] .video-title {
   .nav::-webkit-scrollbar { display: none; }
   .nav a { border: 0; padding: 5px 0; font-size: 12.5px; letter-spacing: 0.06em; white-space: nowrap; }
   .sidebar {
-    transition: transform 0.28s ease;
-    will-change: transform;
+    transition: padding 0.25s ease;
   }
-  .sidebar.is-hidden { transform: translateY(-100%); }
+  /* compact bar once scrolled: keeps the nav reachable, saves height */
+  .sidebar.is-compact {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 12px;
+  }
+  .sidebar.is-compact .brand { display: none; }
+  .sidebar.is-compact .nav {
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 18px;
+  }
+  .sidebar.is-compact .side-foot {
+    position: static;
+    margin-left: auto;
+    flex: 0 0 auto;
+  }
   .main { margin-left: 0; }
   .hero { grid-template-columns: minmax(0, 1fr); min-height: auto; padding-top: 40px; padding-bottom: 56px; gap: 36px; }
   .hero::before { display: none; }
