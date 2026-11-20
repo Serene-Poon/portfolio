@@ -261,6 +261,37 @@
     resizeTimer = window.setTimeout(buildMasonry, 150);
   });
 
+  /* ---------- Mobile header: hide on scroll down, show on scroll up ---------- */
+  const headerBar = document.querySelector(".sidebar");
+  if (headerBar) {
+    let lastY = window.pageYOffset || 0;
+    let ticking = false;
+
+    function onScroll() {
+      if (!window.matchMedia("(max-width: 860px)").matches) {
+        headerBar.classList.remove("is-hidden");
+        return;
+      }
+      const y = window.pageYOffset || 0;
+      const goingDown = y > lastY;
+      if (y > 80 && goingDown) {
+        headerBar.classList.add("is-hidden");
+      } else if (!goingDown || y <= 80) {
+        headerBar.classList.remove("is-hidden");
+      }
+      lastY = y;
+    }
+
+    window.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        onScroll();
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
   /* ---------- Active nav ---------- */
   const links = Array.from(document.querySelectorAll(".nav a"));
   const sections = links
