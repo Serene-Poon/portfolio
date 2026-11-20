@@ -261,32 +261,6 @@
     resizeTimer = window.setTimeout(buildMasonry, 150);
   });
 
-  /* ---------- Mobile header: stay visible, compact once scrolled ---------- */
-  const headerBar = document.querySelector(".sidebar");
-  if (headerBar) {
-    let ticking = false;
-
-    function onScroll() {
-      if (!window.matchMedia("(max-width: 860px)").matches) {
-        headerBar.classList.remove("is-compact");
-        return;
-      }
-      const y = window.pageYOffset || 0;
-      headerBar.classList.toggle("is-compact", y > 120);
-    }
-
-    window.addEventListener("scroll", function () {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () {
-        onScroll();
-        ticking = false;
-      });
-    }, { passive: true });
-
-    onScroll();
-  }
-
   /* ---------- Active nav ---------- */
   const links = Array.from(document.querySelectorAll(".nav a"));
   const sections = links
