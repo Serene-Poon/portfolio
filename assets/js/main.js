@@ -261,25 +261,18 @@
     resizeTimer = window.setTimeout(buildMasonry, 150);
   });
 
-  /* ---------- Mobile header: hide on scroll down, show on scroll up ---------- */
+  /* ---------- Mobile header: stay visible, compact once scrolled ---------- */
   const headerBar = document.querySelector(".sidebar");
   if (headerBar) {
-    let lastY = window.pageYOffset || 0;
     let ticking = false;
 
     function onScroll() {
       if (!window.matchMedia("(max-width: 860px)").matches) {
-        headerBar.classList.remove("is-hidden");
+        headerBar.classList.remove("is-compact");
         return;
       }
       const y = window.pageYOffset || 0;
-      const goingDown = y > lastY;
-      if (y > 80 && goingDown) {
-        headerBar.classList.add("is-hidden");
-      } else if (!goingDown || y <= 80) {
-        headerBar.classList.remove("is-hidden");
-      }
-      lastY = y;
+      headerBar.classList.toggle("is-compact", y > 120);
     }
 
     window.addEventListener("scroll", function () {
@@ -290,6 +283,8 @@
         ticking = false;
       });
     }, { passive: true });
+
+    onScroll();
   }
 
   /* ---------- Active nav ---------- */
